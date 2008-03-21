@@ -2,16 +2,16 @@
 
 = Examples =
 
-Checkout the [http://code.google.com/p/warp-persist/source/checkout source] code, which has an example webapp called codemonkey. The 80 odd tests can also be useful to check out.
+Checkout the [http://code.google.com/p/warp-persist/source/checkout source] code, which has an example webapp called codemonkey. The 80 odd tests can also be useful to look through.
 
-Read the javadoc (see 1.0 tag /doc). And the documentation on http://www.wideplay.com.
+Read the javadoc (see 1.0 tag */doc*). And the documentation on http://www.wideplay.com.
 
 Please post questions to the [http://groups.google.com/group/warp-core mailing list].
 
 = Blogs on warp-persist =
 
 These are some blogs/tutorials from around the web (not official):
-  * Dekoh developer blog on warp-persist wtih [http://blogs.dekoh.com/dev/2007/10/15/easing-jpa-application-developement-by-using-google-guice/ JPA/TopLink] (pretty detailed)
+  * Dekoh developer blog on [http://blogs.dekoh.com/dev/2007/10/15/easing-jpa-application-developement-by-using-google-guice/ warp-persist with JPA/TopLink] (pretty detailed)
   * Tutorial on [http://developer.db4o.com/blogs/community/archive/2008/03/03/use-db4o-in-you-guice-applications-through-warp.aspx warp-persist and db4o]
   * Somewhat outdated (for warp-mvc) but detailed blog on [http://www.jroller.com/dhanji/entry/a_blog_application_continued_persistence warp-mvc and warp-persist with Hibernate] (still accurate for warp-persist)
   * Peter Mularien's blog on [http://www.mularien.com/blog/2007/11/28/bleeding-edge-transactional-wicket-web-applications-with-warp-and-guice/ Wicket and warp-persist] (this blog is pre-1.0 release, comments on warp-persist's "bleeding-edge" nature are somewhat dated)
