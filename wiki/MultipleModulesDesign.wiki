@@ -1,0 +1,101 @@
+#summary Design thoughts on supporting multiple modules per Injector.
+#labels Phase-Design
+
+= Multiple Module Support Design =
+
+== Motivation ==
+Many larger projects need to be able to connect to multiple data sources. Warp Persist 1.0 does not support this.
+
+== Approach ==
+The current API is built around the assumption that only one data source exists, which is why we chose to keep that approach, and to repeat it for each required data source. So the user will have to install multiple persistence modules, one for each data source.
+
+To differentiate between the different modules, we add the ability to specify a binding annotation when building the module. All persistence artifacts like a !SessionFactory, the !WorkManager, ... will be bound to that annotation. This will ensure that we do not create conflicting bindings. Here's an example of how it has currently been implemented:
+
+{{{
+// Connect to the Sales database using Hibernate.
+PersistenceService.usingHibernate()
+                  .across(UnitOfWork.TRANSACTION)
+                  .buildModuleBoundTo(Sales.class);
+
+}}}
+Here's the same example, using 1.0 (without support for multiple modules):
+{{{
+
+{{{
+// Connect to the Sales database using Hibernate.
+PersistenceService.usingHibernate()
+                  .across(UnitOfWork.TRANSACTION)
+                  .buildModule();
+
+}}}
+}}}
+
+To enable all that, however, we have to get rid of 95% of the internal static state. Which brings me to the next section.
+
+== Internal Architecture Redesign ==
+Focus area's:
+  # Self-containment for all persistence strategies (externally, but also internally).
+  # Get rid of as much static state as possible, for example the ...Holder classes.
+  # Continue to support @Transactional properly.
+  # Continue to support Dynamic Finders and Dynamic Accessors properly.
+  # !SessionPerRequestFilter unification.
+
+Let's go over these one by one.
+
+=== Self-containment ===
+Introduced several concepts:
+  * !PersistenceStrategy: defines a persistence strategy, like Hibernate, JPA or DB4O. This is the entry point to adding persistence strategies; it gives out a Guice Module that fully configures the strategy, based on ...
+  * !PersistenceConfiguration: all the configuration collected internally (through the public API). This is currently a concrete class, but it will be refactored to be an interface.
+  * !AbstractPersistenceModule: base Guice Module type that holds utility methods for the different persistence strategies.
+
+=== Less static state ===
+Currently used the Hibernate support as an example. The only static state will be in the global !SessionPerRequestFilter. No more ...Holder types.
+
+=== Supporting @Transactional properly ===
+When installing multiple modules, the user should restrict the types to intercept using the current forAll(...) API. This makes sure that Warp Persist will not open a transaction on the wrong persistence unit or open one when it's not needed.
+
+This is not as convenient as it could be. We could use the binding annotation the user provides (buildModuleBoundTo(...)) to restrict @Transactional automatically. Example designs:
+{{{
+@Sales @Transactional
+void store(Sale sale) { ... }
+}}}
+
+{{{
+@Transactional(unit=Sales.class)
+void store(Sale sale) { ... }
+}}}
+
+If we support one of these, we will need to figure out how this will relate to the configuration specified with forAll, or even to the default configuration. In any case, this is something that can wait: forAll does everything we need. But...
+
+=== Supporting DF and DA properly ===
+This part is tricky, because of two things:
+  # We proxy specified accessors using JDK proxies or CGLIB, and bind them without a binding annotation. This could cause conflicts when using multiple persistence modules.
+  # For concrete types, thus not using DA, we use Guice AOP, with a hard-coded Matcher configuration (all classes, all @Finder methods)
+
+The first problem can be solved by binding these accessors to the same binding annotation as the one specified through buildModuleBoundTo(...). This is how it is currently implemented.
+ -- (Side note: we could support @Transactional on DA's, something to think about.)
+
+The second problem does not have an obvious solution, mainly because it's hard to come up with a good API (like forAll) that the user can use to specify these matchers. Another approach would be to use the @Transactional idea above:
+
+{{{
+@Sales @Finder(...)
+void find(Long saleId) { ... }
+}}}
+or
+{{{
+@Finder(unit=Sales.class, ...)
+void find(Long saleId) { ... }
+}}}
+
+However, this is not as consistent with Dynamic Accessors as one might hope, and might turn out to be confusing. In 1.0, everything happens automatically. We do not want to confuse people. For the record, the first approach has been implemented in the trunk, but that is by no means a decision.
+
+=== SessionPerRequestFilter ===
+One !SessionPerRequestFilter for all persistence strategies. Persistence strategies need to register their !WorkManager on the SPRFilter (the only static state in WP), and the filter does the rest.
+
+== Current Status ==
+Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
+
+----
+Thanks for reading.
+
+Robbie
