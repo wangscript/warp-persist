@@ -92,6 +92,9 @@ However, this is not as consistent with Dynamic Accessors as one might hope, and
 === SessionPerRequestFilter ===
 One !SessionPerRequestFilter for all persistence strategies. Persistence strategies need to register their !WorkManager on the SPRFilter (the only static state in WP), and the filter does the rest.
 
+=== Misc. ===
+All "magical" configuration values not provided through the API, for example a Hibernate Configuration that the user has bound in a Module, need to follow a certain standard. In the Configuration case, the user needs to bind it to the same annotation used for buildModuleBoundTo(...).
+
 == Current Status ==
 Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
 
