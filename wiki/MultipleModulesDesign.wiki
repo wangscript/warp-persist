@@ -87,7 +87,7 @@ void find(Long saleId) { ... }
 
 However, this is not as consistent with Dynamic Accessors as one might hope, and might turn out to be confusing. In 1.0, everything happens automatically. We do not want to confuse people. For the record, the first approach has been implemented in the trunk, but that is by no means a decision.
 
-=== SessionPerRequestFilter ===
+=== !SessionPerRequestFilter ===
 One !SessionPerRequestFilter for all persistence strategies. Persistence strategies need to register their !WorkManager on the SPRFilter (the only static state in WP), and the filter does the rest.
 
 === Misc. ===
