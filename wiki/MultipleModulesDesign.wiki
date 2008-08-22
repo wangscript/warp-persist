@@ -93,6 +93,13 @@ One !SessionPerRequestFilter for all persistence strategies. Persistence strateg
 === Misc. ===
 All "magical" configuration values not provided through the API, for example a Hibernate Configuration that the user has bound in a Module, need to follow a certain standard. In the Configuration case, the user needs to bind it to the same annotation used for buildModuleBoundTo(...).
 
+All bindConstant() values, needed for the JPA and DB4O support, will need to be handled differently. An idea is to also allow users to bind to an annotation instance (instead of a type), and give it a parameter:
+{{{
+// 1.0
+bindConstant().annotatedWith(JpaUnit.class).to("myUnit");
+// with multiple modules: creates @JpaUnit(unit=Sales.class)
+bindConstant().annotatedWith(JpaUnit.of(Sales.class)).to("myUnit");
+}}}
 == Current Status ==
 Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
 
