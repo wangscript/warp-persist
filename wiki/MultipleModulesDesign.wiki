@@ -19,7 +19,6 @@ PersistenceService.usingHibernate()
 
 }}}
 Here's the same example, using 1.0 (without support for multiple modules):
-{{{
 
 {{{
 // Connect to the Sales database using Hibernate.
@@ -27,7 +26,6 @@ PersistenceService.usingHibernate()
                   .across(UnitOfWork.TRANSACTION)
                   .buildModule();
 
-}}}
 }}}
 
 To enable all that, however, we have to get rid of 95% of the internal static state. Which brings me to the next section.
