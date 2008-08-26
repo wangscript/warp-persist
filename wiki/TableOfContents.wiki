@@ -1,8 +1,12 @@
-#summary One-sentence summary of this page.
+#summary Persistence support for Google Guice applications
 
 = Introduction =
 
-Add your content here.
+warp-persist is a simple extension to Guice for integrating persistence libraries. Out of the box, warp-persist integrates:
+
+* Hibernate
+* Java Persistence API (JPA)
+* Db4objects
 
 
 = Details =
