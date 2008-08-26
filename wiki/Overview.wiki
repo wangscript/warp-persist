@@ -19,7 +19,6 @@ Warp-persist also provides the ability to extend and plug in other persistence s
 
 == Architecture ==
 
-Architectural overview of warp-persist applications. 
+Warp-persist integrates Hibernate, JPA and db4o with your Guice applications. 
 
 http://warp-persist.googlecode.com/svn/wiki/warp-persist-arch1.png
-
