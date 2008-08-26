@@ -7,4 +7,4 @@ Warp-persist is a thin integration layer for accessing and using data persistenc
 Traditionally, persistence frameworks are cumbersome to configure and manage. Regardless of how well they are designed, you will often run into concurrency and organization problems when trying to use them in your services. Warp-persist removes most of these problems by bridging the gap between data persistence and the dependency injection idiom.
 
 === warp-persist integrates various persistence frameworks ==
-http://code.google.com/p/warp-persist/source/browse/wiki/warp-persist-arch1.png
+http://warp-persist.googlecode.com/svn/wiki/warp-persist-arch1.png
