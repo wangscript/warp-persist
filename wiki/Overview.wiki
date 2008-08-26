@@ -1,11 +1,21 @@
 #summary Overview of warp-persist architecture
 
-= Architectural Overview =
+= Overview =
 
 Warp-persist is a thin integration layer for accessing and using data persistence engines (such as Hibernate or Oracle TopLink) from inside an application running on Google Guice.
 
-Traditionally, persistence frameworks are cumbersome to configure and manage. Regardless of how well they are designed, you will often run into concurrency and organization problems when trying to use them in your services. Warp-persist removes most of these problems by bridging the gap between data persistence and the dependency injection idiom.
 
-
+== Architecture ==
 http://warp-persist.googlecode.com/svn/wiki/warp-persist-arch1.png
 *Architectural overview of warp-persist applications*
+
+
+Persistence frameworks can be cumbersome to configure and integrate with your code. Warp-persist removes most of these problems by bridging the gap between data persistence and the dependency injection idiom.
+
+We currently support three popular persistence systems out of the box:
+
+  * Hibernate
+  * Java Persistence API (JPA)
+  * Db4objects
+
+Warp-persist also provides the ability to extend and plug in any other persistence system with a few simple configuration changes.
