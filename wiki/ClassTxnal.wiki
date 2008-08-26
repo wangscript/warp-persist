@@ -1,0 +1,35 @@
+#summary Using @Transactional at the class-level
+
+= Class-level @Transactional =
+
+You can also annotate classes with @Transactional. This is useful because it saves you from repetitively tagging every method in a class. If you do decide to use this, you must change your warp-persist module configuration to look for @Transactional classes:
+
+{{{
+  Injector injector = Guice.createInjector(PersistenceService.usingHibernate()
+		.across(UnitOfWork.REQUEST)
+		.forAll(Matchers.annotatedWith(Transactional.class), Matchers.any())
+		.buildModule(); 
+}}}
+
+This tells warp-persist to intercept any methods on classes marked with the @Transactional annotation. Now, your classes are less cluttered:
+
+{{{
+@Transactional
+public class MyRepository {
+    public void save(Thing t) { .. }
+  
+    @Transactional(rollbackOn = NoSuchEntityException.class) //optional
+    public void remove(Thing t) { .. }   
+ 
+    public Thing fetch(Long id) { .. }
+}
+}}} 
+
+Note that you can override the class's transactional behavior with a specific one on each method if desired (as shown above). You can also specify the same behaviors for all methods on classes as you would with methods:
+
+{{{
+@Transactional(rollbackOn = IOException.class) //applies to all methods
+public class MyRepository { .. }
+}}}
+ 
+Remember that  private methods cannot be intercepted for transaction wrapping. If any such methods are encountered, they will be silently ignored.
