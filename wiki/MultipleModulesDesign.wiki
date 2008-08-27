@@ -63,6 +63,8 @@ void store(Sale sale) { ... }
 void store(Sale sale) { ... }
 }}}
 
+ -- *UPDATE:* We will almost certainly go for the second approach (implemented in trunk).
+
 If we support one of these, we will need to figure out how this will relate to the configuration specified with forAll, or even to the default configuration. In any case, this is something that can wait: forAll does everything we need. But...
 
 === Supporting DF and DA properly ===
@@ -72,6 +74,7 @@ This part is tricky, because of two things:
 
 The first problem can be solved by binding these accessors to the same binding annotation as the one specified through buildModuleBoundTo(...). This is how it is currently implemented.
  -- (Side note: we could support @Transactional on DA's, something to think about.)
+ -- *UPDATE:* See Issue #9
 
 The second problem does not have an obvious solution, mainly because it's hard to come up with a good API (like forAll) that the user can use to specify these matchers. Another approach would be to use the @Transactional idea above:
 
@@ -84,6 +87,8 @@ or
 @Finder(unit=Sales.class, ...)
 void find(Long saleId) { ... }
 }}}
+
+ -- *UPDATE:* We will almost certainly go for the second approach (implemented in trunk).
 
 However, this is not as consistent with Dynamic Accessors as one might hope, and might turn out to be confusing. In 1.0, everything happens automatically. We do not want to confuse people. For the record, the first approach has been implemented in the trunk, but that is by no means a decision.
 
@@ -98,8 +103,11 @@ All bindConstant() values, needed for the JPA and DB4O support, will need to be 
 // 1.0
 bindConstant().annotatedWith(JpaUnit.class).to("myUnit");
 // with multiple modules: creates @JpaUnit(unit=Sales.class)
-bindConstant().annotatedWith(JpaUnit.of(Sales.class)).to("myUnit");
+bindConstant().annotatedWith(JpaUnitInstance.of(Sales.class)).to("myUnit");
 }}}
+
+ -- *UPDATE:* We currently implement the second approach.
+
 == Current Status ==
 Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
 
