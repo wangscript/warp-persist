@@ -86,4 +86,14 @@ Now you are able to use `MessageCleanup` both at start time (in a coarse-grained
 
 Method `endWork()` behaves analogously to `beginWork()`. When endWork() is called, any existing `Session/EntityManager/ObjectContainer` is closed and discarded in the current thread. It is safe to call `endWork()` multiple times around the same unit of work. It will return silently if no unit of work is currently active. In the preceeding example, `cleanup()` ended our unit of work, and calling `endWork()` subsequently simply returned.
 
-WorkManager is threadsafe and can be cached and shared between threads or used in the same thread multiple times.
+== Thread Safety ==
+
+`WorkManager` is thread-safe and can be cached and shared between threads or used in the same thread multiple times. `WorkManager` is also safe for _concurrent_ use, meaning multiple threads may share the same instance to manage their units of work without incurring any performance penalties.
+
+== Rules of Thumb ==
+
+When deciding if the arbitrary unit of work is right for you, there are some rules of thumb that might help:
+
+ * Using `WorkManager` with the HTTP Request unit of work strategy _inside_ a request is not recommended
+ * Using `WorkManager` with Transaction unit of work strategy is not terribly clever either
+ * Using `WorkManager` with HTTP Request unit of work strategy, but _outside_ a request (i.e. in a background or init thread) is probably a good use case
