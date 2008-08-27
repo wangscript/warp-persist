@@ -1,6 +1,6 @@
-#summary How to use WorkManager to manage a custom unit of work
+#summary How to use `WorkManager` to manage a custom unit of work
 
-= The WorkManager interface =
+= The `WorkManager` interface =
 
 `WorkManager` is a simple interface that lets you place yardsticks around a custom unit of work. It looks as follows:
 
@@ -14,9 +14,9 @@ public interface WorkManager {
 
 These two methods are pretty self-explanatory. Let's look at their semantics a bit closer.
 
-== Using WorkManager ==
+== Using `WorkManager` ==
 
-To use it, simply inject the WorkManager artifact into one of your classes:
+To use it, simply inject the `WorkManager` artifact into one of your classes:
 
 {{{
 public class MyBackgroundWorker {
