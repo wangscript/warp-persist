@@ -1,6 +1,6 @@
 #summary Creating a custom unit of work
 
-= Custom Units of Work =
+= Arbitrary Units of Work =
 
 Sometimes you need to define a custom unit-of-work that doesn't fit into either http-requests or warp-persist-driven transactions. For example, you may want to do some background work in a non-request thread, or some initialization work in a startup thread (before any requests arrive). And which spans multiple transactions.
 
