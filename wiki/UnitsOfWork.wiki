@@ -15,13 +15,15 @@ http://warp-persist.googlecode.com/svn/wiki/txn_unitofwork.png
 
 This strategy is useful when you are doing a logical group of tasks within one transaction. It is often employed in middle tier or desktop applications, where the concept of an HTTP request does not exist. Or where one is not immediately relevant. This is also similar to the way container-managed transactions work in EJB.
 
-== HTTP Request Unit of Work ==
+== HTTP Request Unit of Work (Open Session In View) ==
 
 By far the most popular and useful strategy, this involves a unit of work being created and destroyed around each HTTP request. Inside it, you may have multiple transactions but they all operate through the same persistence session. This is particularly useful in web applications where _lazy fetching_ is important. 
 
 http://warp-persist.googlecode.com/svn/wiki/request_unitofwork.png
 
 HTTP Request unit of work strategy is implemented in warp-persist via the use of a Servlet _Filter_. This filter runs before and after every incoming HTTP request and ensures a unit of work is present.
+
+JPA and Hibernate sometimes refer to this as the _Open Session In View_ design pattern.
 
 == Custom Unit of Work ==
 
