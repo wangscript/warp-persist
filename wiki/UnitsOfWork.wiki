@@ -17,7 +17,7 @@ This strategy is useful when you are doing a logical group of tasks within one t
 
 == HTTP Request Unit of Work (Open Session In View) ==
 
-By far the most popular and useful strategy, this involves a unit of work being created and destroyed around each HTTP request. Inside it, you may have multiple transactions but they all operate through the same persistence session. This is particularly useful in web applications where _lazy fetching_ is important. 
+By far the most popular and useful strategy, this involves a unit of work being created and destroyed around each HTTP request. Inside it, you may have multiple transactions but they all operate through the same persistence session. This is particularly useful in web applications where _lazy fetching_ is important during page render. 
 
 http://warp-persist.googlecode.com/svn/wiki/request_unitofwork.png
 
