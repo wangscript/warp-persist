@@ -13,7 +13,7 @@ As the name implies, Transaction unit of work strategy involves starting and end
 
 http://warp-persist.googlecode.com/svn/wiki/txn_unitofwork.png
 
-This strategy is useful when you are going to an entire series of tasks within the same transaction. It is often employed in middle tier or desktop applications, where the concept of an HTTP request does not exist. Or where one is not immediately relevant. This is also similar to the way container-managed transactions work in EJB.
+This strategy is useful when you are doing a logical group of tasks within one transaction. It is often employed in middle tier or desktop applications, where the concept of an HTTP request does not exist. Or where one is not immediately relevant. This is also similar to the way container-managed transactions work in EJB.
 
 == HTTP Request Unit of Work ==
 
