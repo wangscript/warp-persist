@@ -57,9 +57,13 @@ public class MessageCleanup {
     public void cleanup() {
         workManager.beginWork();
 
+        try {       
+
         //read and cleanup undelivered messages
 
-        workManager.endWork();
+        } finally {
+            unitOfWork.endWork(); 
+        }
     }
 }
 }}}
