@@ -18,4 +18,4 @@ When deciding if the arbitrary unit of work is right for you, there are some rul
  * Using `WorkManager` with Transaction unit of work strategy is not terribly clever either
  * Using `WorkManager` with HTTP Request unit of work strategy, but _outside_ a request (i.e. in a background or init thread) is probably a good use case
 
-Read more about using [WorkManager here].
+Read more about using [WorkManager WorkManager here].
