@@ -99,7 +99,7 @@ Now you are able to use `MessageCleanup` both at start time (in a coarse-grained
 
 === Ending Work ===
 
-Method `endWork()` behaves analogously to `beginWork()`. When endWork() is called, any existing `Session/EntityManager/ObjectContainer` is closed and discarded in the current thread. It is safe to call `endWork()` multiple times around the same unit of work. It will return silently if no unit of work is currently active. In the preceeding example, `cleanup()` ended our unit of work, and calling `endWork()` subsequently simply returned.
+Method `endWork()` behaves analogously to `beginWork()`. When `endWork()` is called, any existing `Session/EntityManager/ObjectContainer` is closed and discarded in the current thread. It is safe to call `endWork()` multiple times around the same unit of work. It will return silently if no unit of work is currently active. In the preceeding example, `cleanup()` ended our unit of work, and calling `endWork()` subsequently simply returned.
 
 == Thread Safety ==
 
