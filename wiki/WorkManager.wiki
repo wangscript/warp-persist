@@ -24,10 +24,15 @@ public class MyBackgroundWorker {
  
     public void doSomeWork() {
         unitOfWork.beginWork();
+
+        try {       
  
-        //do transactions, queries, whatever..
+            //do transactions, queries, whatever..
+            //...
  
-        unitOfWork.endWork(); 
+        } finally {
+            unitOfWork.endWork(); 
+        }
     } 
 }
 }}}
@@ -73,9 +78,16 @@ public class Startup {
 
         //do some initialization work here...
 
-        cleaner.cleanup();
+        try {       
+ 
+            //do some initialization work her..
+            //...
 
-        workManager.endWork();
+            cleaner.cleanup();
+ 
+        } finally {
+            unitOfWork.endWork(); 
+        }
     }
 }
 }}}
@@ -89,11 +101,3 @@ Method `endWork()` behaves analogously to `beginWork()`. When endWork() is calle
 == Thread Safety ==
 
 `WorkManager` is thread-safe and can be cached and shared between threads or used in the same thread multiple times. `WorkManager` is also safe for _concurrent_ use, meaning multiple threads may share the same instance to manage their units of work without incurring any performance penalties.
-
-== Rules of Thumb ==
-
-When deciding if the arbitrary unit of work is right for you, there are some rules of thumb that might help:
-
- * Using `WorkManager` with the HTTP Request unit of work strategy _inside_ a request is not recommended
- * Using `WorkManager` with Transaction unit of work strategy is not terribly clever either
- * Using `WorkManager` with HTTP Request unit of work strategy, but _outside_ a request (i.e. in a background or init thread) is probably a good use case
