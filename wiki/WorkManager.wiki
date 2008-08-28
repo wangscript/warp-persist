@@ -59,7 +59,8 @@ public class MessageCleanup {
 
         try {       
 
-        //read and cleanup undelivered messages
+            //read and cleanup undelivered messages
+            //...
 
         } finally {
             unitOfWork.endWork(); 
