@@ -81,11 +81,9 @@ public class Startup {
     public void init() {
         workManager.beginWork();
 
-        //do some initialization work here...
-
         try {       
  
-            //do some initialization work her..
+            //do some initialization work here
             //...
 
             cleaner.cleanup();
