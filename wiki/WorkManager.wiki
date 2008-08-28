@@ -50,12 +50,12 @@ Consider the example of a message processor that periodically checks if there ar
 
 {{{
 public class MessageCleanup {
-    @Inject private WorkManager workManager;
+    @Inject private WorkManager unitOfWork;
     ...
 
     //called periodically by timer
     public void cleanup() {
-        workManager.beginWork();
+        unitOfWork.beginWork();
 
         try {       
 
@@ -73,13 +73,13 @@ Now, this works fine in the periodic operational case. However, when starting up
 
 {{{
 public class Startup {
-    @Inject private WorkManager workManager;
+    @Inject private WorkManager unitOfWork;
     @Inject private MessageCleanup cleaner;
     ...
 
     //called once at start time
     public void init() {
-        workManager.beginWork();
+        unitOfWork.beginWork();
 
         try {       
  
