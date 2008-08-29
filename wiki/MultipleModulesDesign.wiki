@@ -106,7 +106,7 @@ bindConstant().annotatedWith(JpaUnit.class).to("myUnit");
 bindConstant().annotatedWith(JpaUnitInstance.of(Sales.class)).to("myUnit");
 }}}
 
- -- *UPDATE:* We currently implement the second approach.
+ -- *UPDATE:* Currently implemented.
 
 == Current Status ==
 Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
