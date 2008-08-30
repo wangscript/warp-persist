@@ -108,6 +108,37 @@ bindConstant().annotatedWith(JpaUnitInstance.of(Sales.class)).to("myUnit");
 
  -- *UPDATE:* Currently implemented.
 
+The problem here is that it doesn't work for the DB4O support. It depends on `@Named` bindings for configuration:
+{{{
+bindConstant().annotatedWith(Names.named(Db4Objects.HOST)).to("localhost");
+bindConstant().annotatedWith(Names.named(Db4Objects.PORT)).to(4321);
+bindConstant().annotatedWith(Names.named(Db4Objects.USER)).to("autobot");
+bindConstant().annotatedWith(Names.named(Db4Objects.PASSWORD)).to("morethanmeetstheeye");
+}}}
+
+So that leaves us with only a couple of reasonable options:
+  * We add a public API that duplicates the functionality
+  * We add a public API that consumes these "configuration" modules
+
+The first option is not terrible, but it will add to the "weight" of the API. I'd say the second option is the best option if we can figure out a way to do this cleanly. The big advantage here would be that you could migrate from a single module configuration to a multi-module configuration very easily.
+
+That said, the second approach has some problems we should think about:
+
+  # What do we do with non-configuration bindings? Discard, bind?
+  # Should we even bind the configuration bindings?
+
+For now, my answers to these questions would be 1) discard, 2) no.
+
+Example API:
+{{{
+// Connect to the Sales database using Hibernate.
+PersistenceService.usingHibernate(Sales.class)
+                  .configuredBy(new ConfigurationModule())
+                  .across(UnitOfWork.TRANSACTION)
+                  .buildModule();
+}}}
+The key to this is that `configuredBy` is optional, and is only available when you use the `usingHibernate(Class<? extends Annotation a)` method.
+
 == Current Status ==
 Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
 
