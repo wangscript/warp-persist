@@ -1,0 +1,35 @@
+#summary Where and how you should use warp-persist
+
+= Usage in Web Environments =
+
+Warp-persist works naturally inside servlet containers and web application frameworks like Struts2, Apache Wicket and warp-widgets. (Note that warp-persist has no dependency on warp-widgets)
+
+With a few simple configuration steps, any web application can take advantage of dependency injection, [DeclarativeTransactions declarative transactions] and [DynamicFinders query abstraction] using a variety of popular persistence systems.
+
+
+== Why not roll my own? ==
+
+Yea, so it looks easy. And it may even be easy to get off the ground. But there are several quite tricky design problems that we've solved carefully and painstakingly. And covered with a battery of robust integration tests. Hibernate, JPA and db4o each play their own quirks which are hard to detect until things start to go wrong deep into the life of a project.
+
+Furthermore, warp-persist was designed with core Guice idioms firmly in mind: 
+  * type-safety
+  * simplicity 
+  * testability
+  * fluent configuration
+  * focus (what you need, now. Not the kitchen sink)
+
+For a quick sample, this is how easy it is to configure warp-persist with hibernate and the open-session-in-view paradigm:
+
+{{{
+Guice.createInjector(..., PersistenceService.usingHibernate()
+                           .across(UnitOfWork.REQUEST)
+                           .buildModule());
+}}}
+
+It looks easy because in large part, warp-persist _makes_ it look easy. 
+
+== Will you support <insert my persistence engine here>? ==
+
+We have reliable tests around Hibernate, JPA (using Hibernate), and db4o. And several successful reports from users with Oracle TopLink and Apache OpenJPA.
+
+However, there are many other libraries out there and coming with warp-persist 2.0, we provide an easy extension mechanism to configure and use your favorite persistence system.
