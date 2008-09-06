@@ -2,11 +2,11 @@
 
 == Usage in Desktop Environments ==
 
-The simplest and most straightforward usage scenario is firing up warp-persist from a java `main()` method. This can be done in a Swing, SWT or simple command-line app, as you choose. In such environments, the [TransactionUnitOfWork  transaction unit of work] is recommended.
+The simplest and most straightforward usage scenario is firing up warp-persist from a Java `main()` method. This can be done in a Swing, SWT or simple command-line app, as you choose. In such environments, the [TransactionUnitOfWork  transaction unit of work] is recommended.
 
 == Usage in Web Environments ==
 
-Warp-persist works naturally inside servlet containers and web application frameworks like Struts2, Apache Wicket and warp-widgets. (Note that warp-persist has no dependency on warp-widgets)
+Warp-persist works naturally inside servlet containers and web application frameworks like Struts2, Apache Wicket and [http://code.google.com/p/warp-core warp-widgets]. (Note that warp-persist has no dependency on warp-widgets)
 
 With a few simple configuration steps, any web application can take advantage of dependency injection, [DeclarativeTransactions declarative transactions] and [DynamicFinders query abstraction] using a variety of popular persistence systems. 
 
@@ -31,7 +31,7 @@ Furthermore, warp-persist was designed with core Guice idioms firmly in mind:
   * fluent configuration
   * focus (what you need, now. Not the kitchen sink)
 
-For a quick sample, this is how easy it is to configure warp-persist with hibernate and the open-session-in-view paradigm:
+For a quick sample, this is how easy it is to configure warp-persist with hibernate and the _open-session-in-view_ paradigm:
 
 {{{
 Guice.createInjector(..., PersistenceService
@@ -42,7 +42,7 @@ Guice.createInjector(..., PersistenceService
 
 It looks easy because in large part, warp-persist _makes_ it look easy. 
 
-== Will you support <insert my persistence engine here>? ==
+== Do you support <insert_persistence_library>? ==
 
 We have reliable tests around Hibernate, JPA (using Hibernate), and db4o. And several successful reports from users with Oracle TopLink and Apache OpenJPA.
 
