@@ -2,9 +2,6 @@
 
 = Overview =
 
-Warp-persist is a thin integration layer for accessing and using data persistence engines (such as Hibernate or Oracle TopLink) from inside an application running on Google Guice.
-
-
 Persistence frameworks can be cumbersome to configure and manage. There are many aspects to manage in your code including everything from concurrency to data transactions. Warp-persist removes most of these problems by bridging the gap between persistence and dependency injection.
 
 We currently support three popular persistence systems out of the box:
