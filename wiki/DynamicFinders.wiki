@@ -14,7 +14,7 @@ public class PersonRepository {
 } 
 }}}
 
-A *Dynamic Accessor* is an *interface* or *abstract class* holding nothing but Dynamic Finders, which can be specified when configuring a !PersistenceService. These need to be specified because Guice does not intercept interfaces or abstract classes. Dynamic Finders on Dynamic Accessors also support `@Transactional`.
+A *Dynamic Accessor* is an *interface* or *abstract class* holding Dynamic Finders, which can be specified when configuring a !PersistenceService. These need to be specified because Guice does not intercept interfaces or abstract classes. Dynamic Finders on Dynamic Accessors also support `@Transactional`.
 
 {{{
 public interface PersonAccess {
