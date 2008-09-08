@@ -50,101 +50,51 @@ Introduced several concepts:
   * !PersistenceConfiguration: all the configuration collected internally (through the public API). This is currently a concrete class, but it will be refactored to be an interface.
   * !AbstractPersistenceModule: base Guice Module type that holds utility methods for the different persistence strategies.
 
+All properties that are not exposed through the public API, included transaction strategies (which has been deprecated in the public API now) are expected to be included in the !PersistenceStrategy's builder.
+
 === Less static state ===
-Currently used the Hibernate support as an example. The only static state will be in the global !SessionPerRequestFilter. No more ...Holder types.
+Currently used the Hibernate support as an example. The only static state will be in the global !SessionPerRequestFilter, called !SessionFilter. No more ...Holder types.
+ -- Note: next to !SessionFilter there will also be a !LifecycleSessionFilter that stops/starts the !PersistenceService(s).
+
+A !PersistenceStrategy will have a mechanism to "publish" its !WorkManager and !PersistenceService to Warp Persist, so it does not have to deal with static state itself. Currently these are simple getters on the !PersistenceStrategy.
 
 === Supporting @Transactional properly ===
 When installing multiple modules, the user should restrict the types to intercept using the current forAll(...) API. This makes sure that Warp Persist will not open a transaction on the wrong persistence unit or open one when it's not needed.
 
-This is not as convenient as it could be. We could use the binding annotation the user provides (buildModuleBoundTo(...)) to restrict @Transactional automatically. Example designs:
-{{{
-@Sales @Transactional
-void store(Sale sale) { ... }
-}}}
-
+This is not as convenient as it could be. We could use the binding annotation the user provides to restrict @Transactional automatically:
 {{{
 @Transactional(unit=Sales.class)
 void store(Sale sale) { ... }
 }}}
 
- -- *UPDATE:* We will almost certainly go for the second approach (implemented in trunk).
-
-If we support one of these, we will need to figure out how this will relate to the configuration specified with forAll, or even to the default configuration. In any case, this is something that can wait: forAll does everything we need. But...
+We will need to figure out how this will relate to the configuration specified with forAll, or even to the default configuration. Currently forAll overwrites the default configuration and assumes the user knows what he/she's doing.
 
 === Supporting DF and DA properly ===
 This part is tricky, because of two things:
   # We proxy specified accessors using JDK proxies or CGLIB, and bind them without a binding annotation. This could cause conflicts when using multiple persistence modules.
   # For concrete types, thus not using DA, we use Guice AOP, with a hard-coded Matcher configuration (all classes, all @Finder methods)
 
-The first problem can be solved by binding these accessors to the same binding annotation as the one specified through buildModuleBoundTo(...). This is how it is currently implemented.
+The first problem can be solved by binding these accessors to the same binding annotation the user specified. This is how it is currently implemented.
  -- (Side note: we could support @Transactional on DA's, something to think about.)
  -- *UPDATE:* See Issue #9
 
-The second problem does not have an obvious solution, mainly because it's hard to come up with a good API (like forAll) that the user can use to specify these matchers. Another approach would be to use the @Transactional idea above:
+The second problem does not have an obvious solution, mainly because it's hard to come up with a good API (like forAll) that the user can use to specify these matchers. Another approach would be to use the @Transactional idea above, which is what we currently implement:
 
-{{{
-@Sales @Finder(...)
-void find(Long saleId) { ... }
-}}}
-or
 {{{
 @Finder(unit=Sales.class, ...)
 void find(Long saleId) { ... }
 }}}
 
- -- *UPDATE:* We will almost certainly go for the second approach (implemented in trunk).
-
-However, this is not as consistent with Dynamic Accessors as one might hope, and might turn out to be confusing. In 1.0, everything happens automatically. We do not want to confuse people. For the record, the first approach has been implemented in the trunk, but that is by no means a decision.
+We should enforce the use of this even for Dynamic Accessors to remain consistent. Also, we should consider making our custom matchers public.
 
 === !SessionPerRequestFilter ===
-One !SessionPerRequestFilter for all persistence strategies. Persistence strategies need to register their !WorkManager on the SPRFilter (the only static state in WP), and the filter does the rest.
+One !SessionPerRequestFilter for all persistence strategies. See above.
 
 === Misc. ===
-All "magical" configuration values not provided through the API, for example a Hibernate Configuration that the user has bound in a Module, need to follow a certain standard. In the Configuration case, the user needs to bind it to the same annotation used for buildModuleBoundTo(...).
-
-All bindConstant() values, needed for the JPA and DB4O support, will need to be handled differently. An idea is to also allow users to bind to an annotation instance (instead of a type), and give it a parameter:
-{{{
-// 1.0
-bindConstant().annotatedWith(JpaUnit.class).to("myUnit");
-// with multiple modules: creates @JpaUnit(unit=Sales.class)
-bindConstant().annotatedWith(JpaUnitInstance.of(Sales.class)).to("myUnit");
-}}}
-
- -- *UPDATE:* Currently implemented.
-
-The problem here is that it doesn't work for the DB4O support. It depends on `@Named` bindings for configuration:
-{{{
-bindConstant().annotatedWith(Names.named(Db4Objects.HOST)).to("localhost");
-bindConstant().annotatedWith(Names.named(Db4Objects.PORT)).to(4321);
-bindConstant().annotatedWith(Names.named(Db4Objects.USER)).to("autobot");
-bindConstant().annotatedWith(Names.named(Db4Objects.PASSWORD)).to("morethanmeetstheeye");
-}}}
-
-So that leaves us with only a couple of reasonable options:
-  * We add a public API that duplicates the functionality
-  * We add a public API that consumes these "configuration" modules
-
-The first option is not terrible, but it will add to the "weight" of the API. I'd say the second option is the best option if we can figure out a way to do this cleanly. The big advantage here would be that you could migrate from a single module configuration to a multi-module configuration very easily.
-
-That said, the second approach has some problems we should think about:
-
-  # What do we do with non-configuration bindings? Discard, bind?
-  # Should we even bind the configuration bindings?
-
-For now, my answers to these questions would be 1) discard, 2) no.
-
-Example API:
-{{{
-// Connect to the Sales database using Hibernate.
-PersistenceService.usingHibernate(Sales.class)
-                  .configuredBy(new ConfigurationModule())
-                  .across(UnitOfWork.TRANSACTION)
-                  .buildModule();
-}}}
-The key to this is that `configuredBy` is optional, and is only available when you use the `usingHibernate(Class<? extends Annotation a)` method.
+All "magical" configuration values not provided through the API, for example a Hibernate Configuration that the user has bound in a Module, need to be specified in the !PersistenceStrategy builder.
 
 == Current Status ==
-Using the Hibernate support to prototype all this. Most of what we have has been mentioned above.
+Mostly implemented. Some corner cases still need work, like specifying a unit on DA's.
 
 ----
 Thanks for reading.
