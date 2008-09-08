@@ -32,6 +32,6 @@
     * [Db4oConfig Configuring db4o]
     * [InjectingOC Working with ObjectContainers]
   * [DynamicFinders Dynamic Finders]
-    * [DFs Using Dynamic Finders]
-    * [DAs Using Dynamic Accessors]
+    * [UsingDynamicFinders Using Dynamic Finders]
+    * [UsingDynamicAccessors Using Dynamic Accessors]
     * [ResultAutoBoxing Pagination and Autoboxing]
