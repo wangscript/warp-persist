@@ -25,7 +25,7 @@ PersistenceService.using(hibernate)
 
 }}}
 
-Note that we choose builder() and not annotatedWith(...) to start with, because it will break the pluggable persistence strategies feature. If we enforce annotatedWith as the starting method, people will not be able to use their persistence strategy without an annotation.
+Note that we choose builder() and not annotatedWith(...) to start with, because the latter would break the pluggable persistence strategies feature. If we enforce annotatedWith as the starting method, people will not be able to use their persistence strategy without an annotation.
 
 Here's the same example, using 1.0 (without support for multiple modules):
 
