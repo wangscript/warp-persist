@@ -9,11 +9,17 @@ Many larger projects need to be able to connect to multiple data sources. Warp P
 == Approach ==
 The current API is built around the assumption that only one data source exists, which is why we chose to keep that approach, and to repeat it for each required data source. So the user will have to install multiple persistence modules, one for each data source.
 
-To differentiate between the different modules, we add the ability to specify a binding annotation when building the module. All persistence artifacts like a !SessionFactory, the !WorkManager, ... will be bound to that annotation. This will ensure that we do not create conflicting bindings. Here's an example of how it has currently been implemented:
+To differentiate between the different modules, we add the ability to specify a binding annotation when building the module. All persistence artifacts like a !SessionFactory, the !WorkManager, ... will be bound to that annotation. This will ensure that we do not create conflicting bindings. 
+
+At the same time, we implement another much requested feature: support for pluggable persistence engines. From an API perspective, this turns out to be a godsend for multimodules.
+
+Here's an example of how it has currently been implemented:
 
 {{{
+HibernatePersistenceStrategy hibernate = HibernatePersistenceStrategy.builder()
+                                                                     .annotatedWith(Sales.class).build();
 // Connect to the Sales database using Hibernate.
-PersistenceService.usingHibernate()
+PersistenceService.using(hibernate)
                   .across(UnitOfWork.TRANSACTION)
                   .buildModuleBoundTo(Sales.class);
 
@@ -27,8 +33,6 @@ PersistenceService.usingHibernate()
                   .buildModule();
 
 }}}
-
-To enable all that, however, we have to get rid of 95% of the internal static state. Which brings me to the next section.
 
 == Internal Architecture Redesign ==
 Focus area's:
