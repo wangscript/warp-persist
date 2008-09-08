@@ -1,0 +1,9 @@
+#summary You give us an interface, we give you a DAO.
+
+= Introduction =
+
+TODO
+
+= Details =
+
+TODO
