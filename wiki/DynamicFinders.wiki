@@ -2,7 +2,11 @@
 
 = Introduction =
 
-TODO
+A *Dynamic Finder* is a data retrieval *method* on a *concrete class*, annotated with the `@Finder` annotation. Warp Persist will intercept calls to these methods and generate the implementation.
+
+A *Dynamic Accessor* is an *interface* or *abstract class* holding nothing but Dynamic Finders, which can be specified when configuring a !PersistenceService. These need to be specified because Guice does not intercept interfaces or abstract classes. Dynamic Finders on Dynamic Accessors also support `@Transactional`.
+
+Note that the Dynamic Finders feature is currently *not* supported for DB4O.
 
 = Details =
 
