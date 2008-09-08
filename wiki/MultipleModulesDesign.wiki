@@ -24,6 +24,9 @@ PersistenceService.using(hibernate)
                   .buildModuleBoundTo(Sales.class);
 
 }}}
+
+Note that we choose builder() and not annotatedWith(...) to start with, because it will break the pluggable persistence strategies feature. If we enforce annotatedWith as the starting method, people will not be able to use their persistence strategy without an annotation.
+
 Here's the same example, using 1.0 (without support for multiple modules):
 
 {{{
@@ -41,6 +44,7 @@ Focus area's:
   # Continue to support @Transactional properly.
   # Continue to support Dynamic Finders and Dynamic Accessors properly.
   # !SessionPerRequestFilter unification.
+  # Solid error detection and reporting.
 
 Let's go over these one by one.
 
@@ -89,6 +93,10 @@ We should enforce the use of this even for Dynamic Accessors to remain consisten
 
 === !SessionPerRequestFilter ===
 One !SessionPerRequestFilter for all persistence strategies. See above.
+
+=== Solid error detection and reporting ===
+  * Dynamic Accessors without `@Finder` should be detected. (use Guice's addError)
+  * TODO
 
 === Misc. ===
 All "magical" configuration values not provided through the API, for example a Hibernate Configuration that the user has bound in a Module, need to be specified in the !PersistenceStrategy builder.
