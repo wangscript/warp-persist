@@ -96,6 +96,7 @@ One !SessionPerRequestFilter for all persistence strategies. See above.
 
 === Solid error detection and reporting ===
   * Dynamic Accessors without `@Finder` should be detected. (use Guice's addError)
+  * All providers or other artifacts (!WorkManager, ...) we generate should output their binding unit annotation in their `toString()` (if there is one). This will improve the debugging experience.
   * TODO
 
 === Misc. ===
