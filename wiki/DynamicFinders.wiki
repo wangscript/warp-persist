@@ -24,7 +24,3 @@ public interface PersonAccess {
 }}}
 
 Note that the Dynamic Finders feature is currently *not* supported for DB4O.
-
-= Details =
-
-TODO
