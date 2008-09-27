@@ -31,7 +31,9 @@ public List<Product> findAllProducts() {
 
 Or ideally, use Dynamic Accessors:
 {{{
-@Transactional(...)
-@Finder(...)
-public List<Product> findAllProducts();
+public interface ProductAccess {
+    @Transactional(...)
+    @Finder(...)
+    public List<Product> findAllProducts();
+}
 }}}
