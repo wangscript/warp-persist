@@ -21,7 +21,7 @@ HibernatePersistenceStrategy hibernate = HibernatePersistenceStrategy.builder()
 // Connect to the Sales database using Hibernate.
 PersistenceService.using(hibernate)
                   .across(UnitOfWork.TRANSACTION)
-                  .buildModuleBoundTo(Sales.class);
+                  .buildModule();
 
 }}}
 
