@@ -17,7 +17,7 @@ This strategy is useful when you are doing a logical group of tasks within one t
 
 == HTTP Request Unit of Work (Open Session In View) ==
 
-By far the most popular and useful strategy, this involves a unit of work being created and destroyed around each HTTP request. Inside it, you may have multiple transactions but they all operate through the same persistence session. This is particularly useful in web applications where _lazy fetching_ is important during page render. 
+By far the most popular and useful strategy, this involves a unit of work being created and destroyed around each HTTP request. Inside it, you may have multiple transactions but they all operate through the same persistence session. This is particularly useful in web applications where _lazy fetching_ is important. 
 
 http://warp-persist.googlecode.com/svn/wiki/request_unitofwork.png
 
@@ -27,7 +27,7 @@ JPA and Hibernate sometimes refer to this as the _Open Session In View_ design p
 
 == Custom Unit of Work ==
 
-It is sometimes necessary to create a unit of work specific to your own problem domain. This may not quite fit within HTTP request or transaction unit of work strategies. A good example is doing some data operations during an application's startup. Or performing some work periodically in a background thread driven by a timer.
+It is sometimes necessary to create a unit of work specific to your own problem domain. This may not quite fit within HTTP request or transaction unit of work strategies. A good example is doing some data operations during an application's startup. Or performing some work periodically in a background thread.
 
 http://warp-persist.googlecode.com/svn/wiki/custom_unitofwork.png
 
