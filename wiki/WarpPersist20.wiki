@@ -3,7 +3,7 @@
 = Warp Persist 2.0 =
 
 == New Features ==
- * Pluggable persistence engines (`Persistence.using(...)`).
+ * Pluggable persistence engines (`Persistence.using(...)`) and an SPI (`com.wideplay.warp.persist.spi`).
  * Support for multiple persistence modules (MultipleModulesDesign).
  * Hibernate, JPA and DB4O now expose a builder API as an alternative to automagical bindings (using the previous two features).
  * `SessionPerRequestFilter` unification: `PersistenceFilter`. By default it also starts / stops all PersistenceService instances.
