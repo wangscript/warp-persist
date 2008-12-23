@@ -15,6 +15,7 @@
  * Guice 2.0 is now supported and recommended.
 
 == Breaking Changes ==
+ * Removed all `SessionPerRequestFilter` classes.
  * Moved Hibernate, JPA and DB4O support into the `com.wideplay.warp.persist` package hierarchy.
  * Removed JTA legacy code (no longer supported)
  * Fluent interface returns different types in some cases (for `forAll` chaining)
