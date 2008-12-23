@@ -39,3 +39,4 @@
     * [ResultAutoBoxing Pagination and Autoboxing]
   * Multiple Modules Support
   * Extending Warp Persist
+  * API Documentation
