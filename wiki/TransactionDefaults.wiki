@@ -15,7 +15,7 @@ Because it is legal not to specify a unit annotation and go with the defaults, t
 @Transaction(unit=MyUnit.class)
 }}}
 
-If you now, at the later time decide to remove the configuration with the unit annotation and merge it with the unitless configuration, what happens? Well, if the defaults matched on @Transactional without the unit, everything would magically work. BUT then your code will have confusing unit annotations in them, and that's not what you want. To protect people from making mistakes, we therefore also match on the unit annotation and not just the annotation itself.
+If you then, at the later time decide to remove the configuration with the unit annotation and merge it with the unitless configuration, what happens? Well, if the defaults matched on @Transactional without the unit, everything would magically work. BUT then your code will have confusing unit annotations in them, and that's not what you want. To protect people from making mistakes, we therefore also match on the unit annotation and not just the annotation itself.
 
 The other, slightly more obvious reason is that you would also *have* to configure transactions manually if you mixed regular modules with modules that have a unit annotation, and we didn't match on the unit annotation by default. Otherwise the module without the unit annotation would also intercept the configurations that do have one. Feeling confused? Head over to the Multiple Modules section!
 
