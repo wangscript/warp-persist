@@ -19,4 +19,4 @@ If you then, at the later time decide to remove the configuration with the unit 
 
 The other, slightly more obvious reason is that you would also *have* to configure transactions manually if you mixed regular modules with modules that have a unit annotation, and we didn't match on the unit annotation by default. Otherwise the module without the unit annotation would also intercept the configurations that do have one. Feeling confused? Head over to the Multiple Modules section!
 
-To reuse our default configuration for your custom transactions, see the `PersistenceMatchers` and `Defaults` classes.
+To reuse our default configuration for your custom transaction configuration needs, see the `PersistenceMatchers` and `Defaults` classes.
