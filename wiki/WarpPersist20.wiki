@@ -2,6 +2,11 @@
 
 = Warp Persist 2.0 =
 
+The second major Warp Persist release was based around the following themes:
+- Making things even simpler.
+- Supporting third party persistence extensions.
+- Support the usage of multiple (instances of) persistence engines next to each other.
+
 == New Features ==
  * Pluggable persistence engines (`Persistence.using(...)`) and an SPI (`com.wideplay.warp.persist.spi`).
  * Support for multiple persistence modules (MultipleModulesDesign).
