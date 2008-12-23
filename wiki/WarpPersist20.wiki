@@ -6,8 +6,7 @@
  * Pluggable persistence engines (`Persistence.using(...)`).
  * Support for multiple persistence modules (MultipleModulesDesign).
  * Hibernate, JPA and DB4O now expose a builder API as an alternative to automagical bindings (using the previous two features).
- * `SessionPerRequestFilter` unification: `SessionFilter`.
- * `PersistenceServiceSessionFilter`, a `SessionFilter` that starts/stops your `PersistenceService`(s) automatically.
+ * `SessionPerRequestFilter` unification: `PersistenceFilter`. By default it also starts / stops all PersistenceService instances.
  * `PersistenceService`s now start automatically (but can still be started on demand).
  * Hibernate Dynamic Finders now support `@Named` arrays and collections.
  * Dynamic Accessors now support `@Transactional`.
