@@ -1,0 +1,20 @@
+#summary Warp Persist 2.0.
+
+= Warp Persist 2.0 =
+
+== New Features ==
+ * Pluggable persistence engines (`Persistence.using(...)`).
+ * Support for multiple persistence modules (MultipleModulesDesign).
+ * Hibernate, JPA and DB4O now expose a builder API as an alternative to automagical bindings (using the previous two features).
+ * `SessionPerRequestFilter` unification: `SessionFilter`.
+ * `PersistenceServiceSessionFilter`, a `SessionFilter` that starts/stops your `PersistenceService`(s) automatically.
+ * `PersistenceService`s now start automatically (but can still be started on demand).
+ * Hibernate Dynamic Finders now support `@Named` arrays and collections.
+ * Dynamic Accessors now support `@Transactional`.
+ * Calls to `forAll(...)` in the fluent interface can now be chained to bind the transaction interceptor multiple times.
+ * Guice 2.0 is now supported and recommended.
+
+== Breaking Changes ==
+ * Removed JTA legacy code (no longer supported)
+ * Fluent interface returns different types in some cases (for `forAll` chaining)
+ * We now throw more exceptions, for example when using `TransactionType.READ_ONLY` with something else than Hibernate, or when trying to use Dynamic Finders with DB4O in Stage.DEVELOPMENT.
