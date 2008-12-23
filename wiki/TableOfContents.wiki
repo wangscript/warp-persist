@@ -38,3 +38,4 @@
     * [UsingDynamicAccessors Using Dynamic Accessors]
     * [ResultAutoBoxing Pagination and Autoboxing]
   * Multiple Modules Support
+  * Extending Warp Persist
