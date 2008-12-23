@@ -13,6 +13,7 @@
     * [DeclarativeTxns @Transactional]
       * [RollingBackTxns Handling exceptions]
     * [CustomMatchers Customizing Transactions]
+      * [TransactionDefaults Default Configuration]
       * [ClassTxnal Using @Transactional on Classes]
       * [AnyTxnal Using your own annotation]
   * [UnitsOfWork Units of Work]
@@ -35,3 +36,4 @@
     * [UsingDynamicFinders Using Dynamic Finders]
     * [UsingDynamicAccessors Using Dynamic Accessors]
     * [ResultAutoBoxing Pagination and Autoboxing]
+  * Multiple Modules Support
