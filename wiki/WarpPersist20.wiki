@@ -12,6 +12,7 @@
  * Hibernate Dynamic Finders now support `@Named` arrays and collections.
  * Dynamic Accessors now support `@Transactional`.
  * Calls to `forAll(...)` in the fluent interface can now be chained to bind the transaction interceptor multiple times.
+ * We now ship a module with utility bindings called `PersistenceServiceExtrasModule`. It currently only contains a binding for `List<PersistenceService>`.
  * Guice 2.0 is now supported and recommended.
 
 == Breaking Changes ==
