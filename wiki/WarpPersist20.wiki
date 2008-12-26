@@ -11,7 +11,7 @@ The second major Warp Persist release was based around the following themes:
  * Pluggable persistence engines (`Persistence.using(...)`) and an SPI (`com.wideplay.warp.persist.spi`).
  * Support for multiple persistence modules (MultipleModulesDesign).
  * Hibernate, JPA and DB4O now expose a builder API as an alternative to automagical bindings (using the previous two features).
- * `SessionPerRequestFilter` unification: `PersistenceFilter`. By default it also starts / stops all `PersistenceService` instances.
+ * `SessionPerRequestFilter` unification: `PersistenceFilter`. It also starts / stops all `PersistenceService` instances.
  * `PersistenceService`s now start automatically (but can still be started on demand).
  * Hibernate Dynamic Finders now support `@Named` arrays and collections.
  * Dynamic Accessors now support `@Transactional`.
@@ -23,5 +23,6 @@ The second major Warp Persist release was based around the following themes:
  * Removed all `SessionPerRequestFilter` classes.
  * Moved Hibernate, JPA and DB4O support into the `com.wideplay.warp.persist` package hierarchy.
  * Removed JTA legacy code (no longer supported)
+ * Removed `TransactionStrategy` and `transactedWith(...)` in the fluent interface (only local transactions are supported)
  * Fluent interface returns different types in some cases (for `forAll` chaining)
  * We now throw more exceptions, for example when using `TransactionType.READ_ONLY` with something else than Hibernate, or when trying to use Dynamic Finders with DB4O in Stage.DEVELOPMENT.
