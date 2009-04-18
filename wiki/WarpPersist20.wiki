@@ -18,6 +18,7 @@ The second major Warp Persist release was based around the following themes:
  * Calls to `forAll(...)` in the fluent interface can now be chained to bind the transaction interceptor multiple times.
  * We now ship a module with utility bindings called `PersistenceServiceExtrasModule`. It currently only contains a binding for `List<PersistenceService>`.
  * Guice 2.0 is now supported and recommended.
+ * New documentation homepage: http://code.google.com/docreader/#p=warp-persist
 
 == Breaking Changes ==
  * Removed all `SessionPerRequestFilter` classes.
