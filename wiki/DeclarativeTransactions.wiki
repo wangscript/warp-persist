@@ -1,0 +1,99 @@
+#summary @Transactional.
+
+= Method-level @Transactional =
+
+By default, any method marked with @Transactional will have a transaction started before, and ended after it is called. The only restriction is that these methods must be on objects that were created by Guice. They may have any visibility except private.
+
+{{{
+@Transactional
+public void myMethod() { ... }
+}}}
+
+The default configuration from warp-persist looks for @Transactional annotations on ALL classes that Guice manages. You can restrict this scan by specifying a class and method matcher as follows:
+
+{{{
+Injector injector = Guice.createInjector(PersistenceService.usingHibernate().across(UnitOfWork.REQUEST)
+.forAll(Matchers.subclassesOf(MyClass.class), Matchers.any())
+.buildModule(); 
+}}}
+
+Please refer to the Guice documentation on how to use matchers (look at the section entitled "intercepting methods").
+Responding to exceptions
+
+If such a transactional method encounters an unchecked exception (any kind of RuntimeException), the transaction will be rolled back. Checked exceptions are ignored (and the transaction will be committed anyway).
+
+To change this behavior, you can specify your own exceptions (checked or unchecked) on a per-method basis:
+
+{{{
+@Transactional(rollbackOn = IOException.class)
+public void myMethod() throws IOException { ... }
+}}}
+
+Once you specify a rollbackOn clause, only the given exceptions and their subclasses will be considered for rollback. Everything else will be committed. Note that you can specify any combination of exceptions using array literal syntax:
+
+{{{
+@Transactional(rollbackOn = { IOException.class, RuntimeException.class, ... })
+}}}
+
+It is sometimes necessary to have some general exception types you want to rollback but particular subtypes that are still allowed: 
+
+{{{
+@Transactional(rollbackOn = IOException.class, exceptOn = FileNotFoundException.class)
+}}}
+
+In the above case, any IOException (and any of its subtypes) except FileNotFoundException will trigger a rollback. In the case of FileNotFoundException, a commit will be performed and the exception propagated to the caller anyway. Note that you can specify any combination of checked or unchecked exceptions.
+
+= Class-level @Transactional =
+
+You can also annotate classes with @Transactional. This is useful because it saves you from repetitively tagging every method in a class. If you do decide to use this, you must change your warp-persist module configuration to look for @Transactional classes:
+
+{{{
+Injector injector = Guice.createInjector(PersistenceService.usingHibernate().across(UnitOfWork.REQUEST)
+.forAll(Matchers.annotatedWith(Transactional.class), Matchers.any())
+.buildModule(); 
+}}}
+
+This tells warp-persist to intercept any methods on classes marked with the @Transactional annotation. Now, your classes are less cluttered:
+
+{{{
+@Transactional
+public class MyRepository {
+    public void save(Thing t) { .. }
+    
+    @Transactional(rollbackOn = NoSuchEntityException.class) //optional
+    public void remove(Thing t) { .. }   
+    public Thing fetch(Long id) { .. }
+}
+}}}
+
+Note that you can override the class's transactional behavior with a specific one on each method if desired (as shown above). You can also specify the same behaviors for all methods on classes as you would with methods:
+
+{{{
+@Transactional(rollbackOn = IOException.class) //applies to all methods
+public class MyRepository { .. }
+}}}
+
+Remember that  private methods cannot be intercepted for transaction wrapping. If any such methods are encountered, they will be silently ignored.
+
+= Custom Units of Work =
+
+Sometimes you need to define a custom unit-of-work that doesn't fit into either http-requests or warp-persist-driven transactions. For example, you may want to do some background work in a non-request thread, or some initialization work in a startup thread (before any requests arrive). Or perhaps you are making a desktop app and have some other idea of a unit of work. Units of work directly correspond to the life of a single: Hibernate Session, JPA EntityManager and Db4o ObjectContainer respectively. These are all confined to one thread, typically.
+
+To start and end a unit of work arbitrarily, inject the WorkManager artifact:
+
+{{{
+public class MyBackgroundWorker {
+    @Inject private WorkManager unitOfWork;
+    public void doSomeWork() {
+        unitOfWork.beginWork();
+        //do transactions, queries, whatever..
+        unitOfWork.endWork(); 
+    } 
+}
+}}}
+ 
+
+You are free to call any @Transactional methods while a unit of work is in progress this way. When endWork() is called, any existing session/entitymanager/objectcontainer is closed and discarded (for the current thread). It is safe to call beginWork() multiple times, if a unit-of-work is in progress, nothing happens. Similarly, if one is ended calling endWork() returns silently. WorkManager is threadsafe and can be cached for multiple uses.
+JTA support
+
+We used to have JTA (Java Transaction Architecture) support but it has been deprecated in version 1.0 for several reasons. Email the list if you are interested in the details. We feel that the local transaction architecture is a more natural fit to applications built on Guice and Warp.
