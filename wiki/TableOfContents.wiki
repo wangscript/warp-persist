@@ -10,8 +10,7 @@
   * Core Concepts
     * [UnitsOfWork Units of Work]
       * [TransactionUnitOfWork Per Transaction]
-      * [OSIVUnitOfWork Per HTTP Request]
-        * [SprFilter The Session Filter]
+      * [HttpRequestUnitOfWork Per HTTP Request]
       * [CustomUnitOfWork Arbitrary Units of Work]
         * [WorkManager The WorkManager interface]
     * [ShuttingDown Shutting Down properly]
