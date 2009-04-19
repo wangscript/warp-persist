@@ -7,13 +7,13 @@
     * [Overview]
     * [UsageScenarios Usage Scenarios]
     * [WarpPersist20 Warp Persist 2.0]
-  * Core Concepts
+  * How it works
+    * [BasicUsage Basic Usage]
     * [UnitsOfWork Units of Work]
       * [TransactionUnitOfWork Per Transaction]
       * [HttpRequestUnitOfWork Per HTTP Request]
       * [CustomUnitOfWork Arbitrary Units of Work]
         * [WorkManager The WorkManager interface]
-    * [ShuttingDown Shutting Down properly]
     * [TransactionManagement Automated Transaction Management]
       * [TransactionIntro What are transactions?]
       * [LocalTxns Local transactions]
@@ -27,7 +27,7 @@
       * [UsingDynamicFinders Using Dynamic Finders]
       * [UsingDynamicAccessors Using Dynamic Accessors]
       * [ResultAutoBoxing Pagination and Autoboxing]
-    * Multiple Modules Support
+    * Multiple modules per Injector
   * [Hibernate Using Hibernate]
     * [HibernateConfig Configuring Hibernate]
     * [InjectingSessions Working with Sessions]
