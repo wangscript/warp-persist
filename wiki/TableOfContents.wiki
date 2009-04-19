@@ -7,7 +7,7 @@
     * [Overview]
     * [UsageScenarios Usage Scenarios]
     * [WarpPersist20 Warp Persist 2.0]
-  * [CoreConcepts Core Concepts]
+  * Core Concepts
     * [UnitsOfWork Units of Work]
       * [TransactionUnitOfWork Per Transaction]
       * [OSIVUnitOfWork Per HTTP Request]
